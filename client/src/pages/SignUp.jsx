@@ -24,7 +24,6 @@ const SignUp = () => {
         },
         body: JSON.stringify(formData),
       });
-      setLoading(false);
       const data = await res.json();
       if (res.ok) {
         // Handle successful signup
@@ -37,9 +36,11 @@ const SignUp = () => {
       }
     } catch (error) {
       // Handle network error
-      setLoading(false);
+
       setError(error.message);
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   return (

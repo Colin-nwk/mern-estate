@@ -1,11 +1,13 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/user.model.js";
+import generateToken from "../utils/generateToken.js";
 
 export const signin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPasswords(password))) {
+    generateToken(res, user._id);
     res.status(200).json({
       _id: user._id,
       name: user.name,

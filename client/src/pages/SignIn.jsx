@@ -1,21 +1,27 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, AlertIcon } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from "../redux/user/userSlice";
 
 const SignIn = () => {
   const [formData, setFormData] = React.useState({});
-  const [error, setError] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
+  const { loading, error } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
+    dispatch(signInStart());
     try {
       const res = await fetch("/api/signin", {
         method: "POST",
@@ -24,22 +30,24 @@ const SignIn = () => {
         },
         body: JSON.stringify(formData),
       });
-      setLoading(false);
       const data = await res.json();
       if (res.ok) {
         // Handle successful signup
-        console.log(data);
+        dispatch(signInSuccess(data));
+        // console.log(data);
         navigate("/");
       } else {
         // Handle signup error
-        console.log(data.message);
-        setError(data.message);
+        dispatch(signInFailure(data.message));
+        // console.log(data.message);
+        // setError(data.message);
       }
     } catch (error) {
       // Handle network error
-      setLoading(false);
-      setError(error.message);
-      console.log(error);
+
+      // setError(error.message);
+      // console.log(error);
+      dispatch(signInFailure(error.message));
     }
   };
   return (
