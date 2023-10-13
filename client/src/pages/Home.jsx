@@ -1,6 +1,10 @@
+// import Header from "./../components/Header";
 const Home = () => {
   return (
-    <div className="uppercase text-3xl h-screen w-screen bg-red-300">Home</div>
+    <div className=" h-screen w-screen bg-red-300">
+      {/* <Header /> */}
+      <h1>Home</h1>
+    </div>
   );
 };
 
