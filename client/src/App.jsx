@@ -4,7 +4,6 @@ import About from "./pages/About";
 import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import SignOut from "./pages/SignOut";
 import NotFound from "./pages/NotFound";
 // import Head from "./components/Head";
 import Header from "./components/Header";
@@ -12,7 +11,6 @@ import Header from "./components/Header";
 function App() {
   return (
     <Router>
-      {/* <Head /> */}
       <Header />
       <Routes>
         <Route path="/" index element={<Home />} />
@@ -20,7 +18,6 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/signout" element={<SignOut />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
