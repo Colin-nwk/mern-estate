@@ -53,74 +53,88 @@ const SignIn = () => {
   };
   return (
     <>
-      <main className="w-full h-screen flex flex-col items-center justify-center px-4 bg-slate-50 overflow-hidden">
-        <div className="max-w-sm w-full text-gray-600 space-y-2 bg-white px-10 my-5 rounded-md">
-          <div className="text-center pb-8">
-            <div className="mt-5">
-              <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-                Log in to your account
-              </h3>
+      <main className="relative py-6 bg-gray-900 h-screen">
+        <div className="relative z-10 max-w-screen-xl mx-auto text-gray-600 sm:px-4 md:px-8">
+          <div className="max-w-lg space-y-3 px-4 sm:mx-auto sm:text-center sm:px-0">
+            <h3 className="text-cyan-400 font-semibold">
+              {" "}
+              Log in to your account
+            </h3>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="max-w-md  text-gray-600 space-y-2 bg-white px-10 my-5 rounded-md py-6">
+              <div className="flex justify-center items-center "></div>
+
+              {error ? (
+                <Alert status="error">
+                  <AlertIcon />
+                  {error}
+                </Alert>
+              ) : null}
+              <form className="space-y-5" onSubmit={handleSubmit}>
+                {/* <div>
+                  <label className="font-medium">Username</label>
+
+                  <input
+                    type="text"
+                    required
+                    name="username"
+                    id="username"
+                    onChange={handleChange}
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                  />
+                </div> */}
+                <div>
+                  <label className="font-medium">Email</label>
+                  <input
+                    type="email"
+                    required
+                    name="email"
+                    onChange={handleChange}
+                    id="email"
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                  />
+                </div>
+                <div>
+                  <label className="font-medium">Password</label>
+                  <input
+                    onChange={handleChange}
+                    name="password"
+                    id="password"
+                    type="password"
+                    required
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                  />
+                </div>
+                <button
+                  className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-900 active:bg-indigo-700 rounded-lg duration-150 disabled:bg-indigo-300 uppercase"
+                  disabled={loading}
+                >
+                  {loading ? "loading..." : "  Sign In"}
+                </button>
+              </form>
+
+              <OAuth />
+              <p className="text-center">
+                Dont have an account?
+                <Link
+                  to="/signup"
+                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                >
+                  Sign up
+                </Link>
+              </p>
             </div>
           </div>
-          {error ? (
-            <Alert status="error">
-              <AlertIcon />
-              {error}
-            </Alert>
-          ) : null}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="font-medium">Email</label>
-              <input
-                onChange={handleChange}
-                type="email"
-                required
-                name="email"
-                id="email"
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-              />
-            </div>
-            <div>
-              <label className="font-medium">Password</label>
-              <input
-                onChange={handleChange}
-                name="password"
-                id="password"
-                type="password"
-                required
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-              />
-            </div>
-            {/* <div>
-              <label className="font-medium">Confirm Password</label>
-              <input
-                onChange={handleChange}
-                type="password"
-                name="cpassword"
-                id="cpassword"
-                required
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-              />
-            </div> */}
-
-            <button
-              className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150 disabled:bg-indigo-300"
-              disabled={loading}
-            >
-              {loading ? "loading..." : "  Sign In"}
-            </button>
-          </form>
-          <OAuth />
-          <p className="text-center">
-            Dont have an account?
-            <Link
-              to="/signup"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              Sign up
-            </Link>
-          </p>
         </div>
+        <div
+          className="absolute inset-0 blur-[118px] max-w-lg h-screen mx-auto sm:max-w-3xl sm:h-[400px]"
+          style={{
+            background:
+              "linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)",
+          }}
+        ></div>
       </main>
     </>
   );

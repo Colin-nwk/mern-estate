@@ -1,5 +1,10 @@
 import express from "express";
-import { signin, signup, google } from "../controllers/auth.controller.js";
+import {
+  signin,
+  signup,
+  google,
+  logout,
+} from "../controllers/auth.controller.js";
 
 const router = express.Router();
 
@@ -8,7 +13,7 @@ router.post("/signup", signup);
 router.post("/signout", signin);
 router.get("/profile", signin);
 router.post("/google", google);
-// router.post("/logout", logoutUser);
+router.post("/logout", logout);
 // router
 //   .route("/profile")
 //   .get(protect, getUserProfile)

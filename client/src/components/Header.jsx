@@ -37,7 +37,7 @@ const Header = () => {
           </div>
           <div className="flex-1 flex items-center justify-between">
             <div
-              className={`bg-white absolute z-20 w-full top-14 left-0 p-4 border-b lg:static lg:block lg:border-none ${
+              className={`absolute z-20 w-full top-14 left-0 p-4 border-b lg:static lg:block lg:border-none ${
                 menuState ? "" : "hidden"
               }`}
             >

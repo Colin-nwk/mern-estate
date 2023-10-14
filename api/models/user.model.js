@@ -19,7 +19,8 @@ const UserSchema = mongoose.Schema(
     },
     avatar: {
       type: String,
-      default: "",
+      default:
+        "https://th.bing.com/th/id/OIP.xo-BCC1ZKFpLL65D93eHcgHaGe?pid=ImgDet&rs=1",
     },
     verified: {
       type: Boolean,

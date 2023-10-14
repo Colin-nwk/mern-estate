@@ -92,9 +92,20 @@ export const signup = asyncHandler(async (req, res) => {
       // username: user.username,
       // email: user.email,
       // avatar: user.avatar,
+      message: "account received successfully",
     });
   } else {
     res.status(400);
     throw new Error("Invalid user data");
   }
+});
+
+export const logout = asyncHandler(async (req, res) => {
+  res.cookie("access_token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({
+    message: "user logged out",
+  });
 });
