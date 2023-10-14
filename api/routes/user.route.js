@@ -1,12 +1,10 @@
 import express from "express";
-// import { signin } from "../controllers/user.controller.js";
+import { update } from "../controllers/user.controller.js";
+import { verify } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
-router.get("/test", (req, res) => {
-  res.send("server is ready");
-});
-// router.post("/signin", signin);
+router.put("/update/:id", verify, update);
 // router.post("/", authUser);
 // router.post("/logout", logoutUser);
 // router

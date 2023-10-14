@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use("/api", auth);
-app.use("/api/users", user);
+app.use("/api/user", user);
 
 app.use(notFound);
 app.use(errorHandler);
