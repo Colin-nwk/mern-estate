@@ -12,10 +12,49 @@ export const signin = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      avatar: user.avatar,
     });
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
+  }
+});
+
+export const google = asyncHandler(async (req, res) => {
+  const { email, username, photo } = req.body;
+  const user = await User.findOne({ email });
+
+  if (user) {
+    generateToken(res, user._id);
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+    });
+  } else {
+    const password =
+      Math.random().toString(36).slice(-8) +
+      Math.random().toString(36).slice(-8);
+    const newUser = await User.create({
+      username,
+      email,
+      password,
+      avatar: photo,
+    });
+
+    if (newUser) {
+      generateToken(res, newUser._id);
+      res.status(201).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+      });
+    } else {
+      res.status(400);
+      throw new Error("Invalid google user data");
+    }
   }
 });
 
@@ -52,6 +91,7 @@ export const signup = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      avatar: user.avatar,
     });
   } else {
     res.status(400);
