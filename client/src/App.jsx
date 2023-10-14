@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 // import Head from "./components/Head";
 import Header from "./components/Header";
+import Private from "./components/Private";
 
 function App() {
   return (
@@ -15,9 +16,11 @@ function App() {
       <Routes>
         <Route path="/" index element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route element={<Private />}>
+          <Route path="/profile" element={<Profile />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

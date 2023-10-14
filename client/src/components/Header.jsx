@@ -11,10 +11,12 @@ import {
 } from "@chakra-ui/react";
 
 import { BsSearch } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 // Profile Dropdown
 
 const Header = () => {
+  const { currentUser } = useSelector((state) => state.user);
   const [menuState, setMenuState] = useState(false);
 
   // Replace  path with your path
@@ -25,7 +27,7 @@ const Header = () => {
   return (
     <>
       <nav className="bg-white border-b">
-        <div className="flex items-center space-x-8 py-2 px-4 max-w-screen-xl mx-auto md:px-8">
+        <div className="flex items-center space-x-8 py-2 px-4 max-w-screen mx-auto md:px-8 overflow-hidden">
           <div className="flex-none lg:flex-initial bg-blue-200 px-3 py-1 rounded-xl">
             <p className="text-base uppercase font-bold text-blue-900">
               <Link to="">
@@ -99,26 +101,30 @@ const Header = () => {
                   </svg>
                 )}
               </button>
-              <Button colorScheme="linkedin" size="sm" color="aliceblue">
-                <Link to="/signin">SignIn</Link>
-              </Button>
 
-              <Menu>
-                <MenuButton>
-                  <Avatar
-                    size="sm"
-                    //     colorScheme="blue"
-                    name="Collins Nwoko"
-                    src="https://bit.ly/code-beast"
-                  />
-                </MenuButton>
-                <MenuList>
-                  <MenuGroup title="Profile">
-                    <MenuItem>My Account</MenuItem>
-                    <MenuItem>SignOut </MenuItem>
-                  </MenuGroup>
-                </MenuList>
-              </Menu>
+              {currentUser ? (
+                <Menu>
+                  <MenuButton>
+                    <Avatar
+                      size="sm"
+                      name={currentUser.username}
+                      src={currentUser.avatar}
+                    />
+                  </MenuButton>
+                  <MenuList>
+                    <MenuGroup title={currentUser.email}>
+                      <Link to="/profile">
+                        <MenuItem>My Profile</MenuItem>
+                      </Link>
+                      <MenuItem>SignOut </MenuItem>
+                    </MenuGroup>
+                  </MenuList>
+                </Menu>
+              ) : (
+                <Button colorScheme="linkedin" size="sm" color="aliceblue">
+                  <Link to="/signin">SignIn</Link>
+                </Button>
+              )}
             </div>
           </div>
         </div>
