@@ -11,19 +11,44 @@ import {
 } from "@chakra-ui/react";
 
 import { BsSearch } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import {
+  signOutStart,
+  signOutSuccess,
+  signOutFailure,
+} from "../redux/user/userSlice";
 
 // Profile Dropdown
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const [menuState, setMenuState] = useState(false);
+  const dispatch = useDispatch();
 
+  const [menuState, setMenuState] = useState(false);
   // Replace  path with your path
   const navigation = [
     { title: "Home", path: "" },
     { title: "About", path: "/about" },
   ];
+
+  const handleSignout = async () => {
+    dispatch(signOutStart());
+    alert("Sign out");
+    try {
+      await fetch("/api/logout", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      dispatch(signOutSuccess());
+    } catch (error) {
+      dispatch(signOutFailure(error.message));
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <nav className="bg-white border-b">
@@ -116,7 +141,7 @@ const Header = () => {
                       <Link to="/profile">
                         <MenuItem>My Profile</MenuItem>
                       </Link>
-                      <MenuItem>SignOut </MenuItem>
+                      <MenuItem onClick={handleSignout}>SignOut </MenuItem>
                     </MenuGroup>
                   </MenuList>
                 </Menu>

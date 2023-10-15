@@ -13,7 +13,7 @@ router.post("/signup", signup);
 router.post("/signout", signin);
 router.get("/profile", signin);
 router.post("/google", google);
-router.post("/logout", logout);
+router.get("/logout", logout);
 // router
 //   .route("/profile")
 //   .get(protect, getUserProfile)

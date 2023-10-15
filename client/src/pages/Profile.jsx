@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+
 import { Alert, AlertIcon, Progress } from "@chakra-ui/react";
 import {
   getStorage,
@@ -9,6 +9,14 @@ import {
 } from "firebase/storage";
 import { app } from "../utils/firebase";
 
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateUserFailure,
+  updateUserSuccess,
+  updateUserStart,
+} from "../redux/user/userSlice";
+import DeleteAccount from "../components/DeleteAccount";
+
 const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const fileRef = useRef(null);
@@ -16,12 +24,18 @@ const Profile = () => {
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
     }
   }, [file]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
@@ -50,9 +64,28 @@ const Profile = () => {
     );
   };
 
-  console.log(formData);
-  console.log(filePerc);
-  console.log(fileUploadError);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setUpdateSuccess(true);
+        dispatch(updateUserSuccess(data));
+      } else {
+        dispatch(updateUserFailure(data.message));
+      }
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  };
 
   return (
     <>
@@ -92,6 +125,9 @@ const Profile = () => {
                   ""
                 )}
               </p>
+              <p className="text-green-700 mt-5">
+                {updateSuccess ? "User is updated successfully!" : ""}
+              </p>
 
               {error ? (
                 <Alert status="error">
@@ -99,7 +135,7 @@ const Profile = () => {
                   {error}
                 </Alert>
               ) : null}
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleSubmit}>
                 {/* <input type="image" src="" alt="" /> */}
                 <input
                   type="file"
@@ -112,11 +148,13 @@ const Profile = () => {
                 />
                 <div>
                   <label className="font-medium">Username</label>
+
                   <input
                     type="text"
                     required
                     name="username"
-                    // value={currentUser.username}
+                    defaultValue={currentUser.username}
+                    onChange={handleChange}
                     id="username"
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   />
@@ -127,7 +165,8 @@ const Profile = () => {
                     type="email"
                     required
                     name="email"
-                    // value={currentUser.email}
+                    defaultValue={currentUser.email}
+                    onChange={handleChange}
                     id="email"
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   />
@@ -138,7 +177,7 @@ const Profile = () => {
                     name="password"
                     id="password"
                     type="password"
-                    required
+                    onChange={handleChange}
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   />
                 </div>
@@ -150,9 +189,7 @@ const Profile = () => {
                 </button>
               </form>
 
-              <p className="text-right cursor-pointer text-red-600 hover:text-red-900 pt-6">
-                Delete Acccount
-              </p>
+              <DeleteAccount />
             </div>
           </div>
         </div>

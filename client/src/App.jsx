@@ -9,10 +9,38 @@ import NotFound from "./pages/NotFound";
 import Header from "./components/Header";
 import Private from "./components/Private";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
+  // const notify = () =>
+  //   toast.success("🦄 Wow so easy!", {
+  //     position: "top-center",
+  //     autoClose: 5000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //     theme: "light",
+  //   });
+
   return (
     <Router>
       <Header />
+      {/* <button onClick={notify}>Notify!</button> */}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Routes>
         <Route path="/" index element={<Home />} />
         <Route path="/about" element={<About />} />

@@ -105,7 +105,7 @@ export const logout = asyncHandler(async (req, res) => {
     httpOnly: true,
     expires: new Date(0),
   });
-  res.status(200).json({
-    message: "user logged out",
+  res.status(304).json({
+    message: "user logged out!",
   });
 });
